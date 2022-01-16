@@ -9,10 +9,14 @@ import (
     )
 
 func main() {
-    objmap := make(map[string]string)
+    objmap := make(map[string]interface{})
     var reader *bufio.Reader = nil
 
     if len(os.Args) > 1 {
+        if os.Args[1] == "-h" {
+            os.Stdout.WriteString("Usage: jsonpp [input file, - or blank for stdin]\n")
+            os.Exit(0)
+        }
         if os.Args[1] == "-" {
             reader = bufio.NewReader(os.Stdin)
         } else {
@@ -42,4 +46,10 @@ func main() {
         os.Stdout.Write(b)
         os.Stdout.WriteString("\n")
     }
+    /*
+     * To pull a value out it is done like so:
+     * details_map := objmap["details"].(map[string]interface{})
+     * note: value is an interface{} at this point
+     * active_calls := details_map["active_calls"]
+     */
 }
